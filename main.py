@@ -1,5 +1,5 @@
 import queue as qu
-import threading as th
+import threading as th # implement several threads
 import multiprocessing as mp
 import time
 
