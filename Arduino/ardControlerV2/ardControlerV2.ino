@@ -216,7 +216,7 @@ void updatePingData(void *pvParameters) {
   }
 }
 
-//drives the robot accoring to the last received order
+//drives the robot according to the last received order
 void driveACR(void *pvParameters) {
   while(1) {
     
