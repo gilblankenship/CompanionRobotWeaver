@@ -1,5 +1,5 @@
 // Authors - Nikhil Uplekar, Nathan Koenigsmark, Huy Do
-// ENEE408I Fall 2019 Group 2
+// ENEE408I Fall 2019 Team 2
 
 // Code for slave ardino, takes serial inputs, runs RTOS to multitask
 
@@ -17,6 +17,8 @@
 #include <Arduino_FreeRTOS.h>
 #include "MotorControl.h"
 #include "Ultrasound.h"
+
+//#define portCHAR char // See https://forum.arduino.cc/index.php?topic=667888.0
 
 //constants
 byte PWM = 60;
@@ -74,9 +76,12 @@ Ultrasound rightUltrasound  (right_ping_pin);
 
 void setup() {
   Serial.begin(9600); // Set baud-rate
-  xTaskCreate(driveACR,       (const portCHAR *) "Driving",         128, NULL, 1, NULL); // Priority 1
-  xTaskCreate(updateOrders,   (const portCHAR *) "Updating Orders", 128, NULL, 2, NULL); // Priority 2
-  xTaskCreate(updatePingData, (const portCHAR *) "Updating Pings",  128, NULL, 3, NULL); // Priority 3
+  xTaskCreate(driveACR,       (const char *) "Driving",         128, NULL, 1, NULL); // Priority 1
+  xTaskCreate(updateOrders,   (const char *) "Updating Orders", 128, NULL, 2, NULL); // Priority 2
+  xTaskCreate(updatePingData, (const char *) "Updating Pings",  128, NULL, 3, NULL); // Priority 3
+//  xTaskCreate(driveACR,       (const portCHAR *) "Driving",         128, NULL, 1, NULL); // Priority 1
+//  xTaskCreate(updateOrders,   (const portCHAR *) "Updating Orders", 128, NULL, 2, NULL); // Priority 2
+//  xTaskCreate(updatePingData, (const portCHAR *) "Updating Pings",  128, NULL, 3, NULL); // Priority 3
   go_stop(); // Guarantee that both motors are not moving at start
   set_speed(PWM, PWM); // Kind-of useless since we set it on every movement command (see below)
 }
