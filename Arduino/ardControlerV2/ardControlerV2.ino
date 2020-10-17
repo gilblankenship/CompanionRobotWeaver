@@ -3,7 +3,7 @@
 // revised 2020-10-17
 
 // Code for robot Arduino, takes serial inputs, runs RTOS to multitask
-// RTOS Introduction:
+// RTOS Background and examples. Be sure to add the FreeRTOS library to your Arduino code:
 // https://circuitdigest.com/microcontroller-projects/arduino-freertos-tutorial1-creating-freertos-task-to-blink-led-in-arduino-uno
 
 // Order API between robot computer and Arduino (no whitespace. Just the newlines)
@@ -21,30 +21,29 @@
 #include "MotorControl.h"
 #include "Ultrasound.h"
 
-//#define portCHAR char // See https://forum.arduino.cc/index.php?topic=667888.0
+//#define portCHAR char // Not used: See https://forum.arduino.cc/index.php?topic=667888.0
 
 //constants
-byte PWM = 60;
-const int STOP_DISTANCE_CENTER = 15; // cm
-const int STOP_DISTANCE_SIDE   = 10; // cm
+byte PWM = 60; // Effectively motor speed setting
+const int STOP_DISTANCE_CENTER = 15; // cm Stopping distance for the center Ping sensor
+const int STOP_DISTANCE_SIDE   = 10; // cm Stopping distance for the two side Ping sensors
 
-// enum for Direction
+// enum for Directions of robot movement. Modify for more directions, such as slight right turn, etc. 
 enum Directions {forward, backward, left, right, halt};
   // 0 - forward, 1 - backwards, 2 - left, 3 - right, 4 - halt
   
-// enum for type of following/avoidance
+// enum for type of following or avoidance of a person or an April tag
 enum Following {person, april};
   // 0 - person, 1 - april
 
-
 //globals for motor control
 boolean avoidObstaclesEnabled = false; // Default to false
-boolean freeRoam = false; // Not supported at this point
+boolean freeRoam = false; // Not supported at this point, but useful in the future for patrolling
 Directions currDir = halt;
 Directions prevDir = halt;
 Following followType = person; // Default to person following
 
-//globals for obstacle avoidance
+//globals for obstacle avoidance, referring to the Ping sensors
 boolean dangerCenter = false;
 boolean dangerLeft   = false;
 boolean dangerRight  = false;
@@ -52,17 +51,27 @@ boolean dangerDetected = false;
 long leftDistance = 0, centerDistance = 0, rightDistance = 0;
 boolean lastCommandFromSerial = false;
 
-//prototypes for RTOS tasks
+// Prototypes for RTOS tasks. See the tutorial:
+// https://circuitdigest.com/microcontroller-projects/arduino-freertos-tutorial1-creating-freertos-task-to-blink-led-in-arduino-uno
 void updateOrders  (void *pvParameters);
 void updatePingData(void *pvParameters);
 void driveACR      (void *pvParameters);
 
-// Ping sensor pins
+// Ping sensor signaling pin connections, modify as needed
+// This assumes 3-pin Ping sensors from Parallax. 
 const int center_ping_pin = 4;
 const int left_ping_pin   = 7;
 const int right_ping_pin  = 8;
 
-// Motor pins
+/*
+// Modify if have the low cost HC-SR04 that has 4 pins, see: https://gist.github.com/flakas/3294829
+// VCC connection of the sensor attached to +5V
+// GND connection of the sensor attached to ground
+const int TRIG = 2 // HC-SR-0 TRIG pin to digital pin 2 or as you desire
+const int ECHO = 4 // HC-SR-0 ECHO pin to digital pin 4 or as you desire
+*/
+
+// Motor pin connections, modify to match your setup
 const int LeftMotorA_pin    = 11;
 const int RightMotorA_pin   = 13;
 const int LeftMotorB_pin    = 10;
@@ -70,7 +79,8 @@ const int RightMotorB_pin   = 12;
 const int LeftMotorPWM_pin  = 6;
 const int RightMotorPWM_pin = 5;
 
-// OOP Initializations
+// Initializations of the motor and sensor objects, see MotorControl.h, Ultrasound.h
+// Modify here and above if you have more or less sensors or motors
 MotorControl leftMotor  (LeftMotorA_pin,  LeftMotorB_pin,  LeftMotorPWM_pin);
 MotorControl rightMotor (RightMotorA_pin, RightMotorB_pin, RightMotorPWM_pin);
 Ultrasound leftUltrasound   (left_ping_pin);
@@ -79,17 +89,20 @@ Ultrasound rightUltrasound  (right_ping_pin);
 
 void setup() {
   Serial.begin(9600); // Set baud-rate
+  // Create RTOS tasks and set their priorities
   xTaskCreate(driveACR,       (const char *) "Driving",         128, NULL, 1, NULL); // Priority 1
   xTaskCreate(updateOrders,   (const char *) "Updating Orders", 128, NULL, 2, NULL); // Priority 2
   xTaskCreate(updatePingData, (const char *) "Updating Pings",  128, NULL, 3, NULL); // Priority 3
+ /********************
 //  xTaskCreate(driveACR,       (const portCHAR *) "Driving",         128, NULL, 1, NULL); // Priority 1
 //  xTaskCreate(updateOrders,   (const portCHAR *) "Updating Orders", 128, NULL, 2, NULL); // Priority 2
 //  xTaskCreate(updatePingData, (const portCHAR *) "Updating Pings",  128, NULL, 3, NULL); // Priority 3
+*********************/
   go_stop(); // Guarantee that both motors are not moving at start
   set_speed(PWM, PWM); // Kind-of useless since we set it on every movement command (see below)
 }
 
-// This is supposed to be empty (lets RTOS run uninterupted)
+// This is empty, which lets RTOS run uninterupted and control events
 void loop() {
 }
 
@@ -104,13 +117,21 @@ void go_stop() {
 }
 
 void go_forward() {
-  set_speed(PWM, PWM);
+  // Motor speeds are set the same by default
+  // You may have to adjust this if your motors
+  // are not matched
+  const int forwardSpeedOffset = 0
+  set_speed(PWM + forwardSpeedOffset, PWM);
   leftMotor.forward();
   rightMotor.backward();
 }
 
 void go_backward() {
-  set_speed(PWM-3, PWM);  // Compensate for difference that occurs when backing up
+  // Motor speeds are set the same by default
+  // You may have to adjust this if your motors
+  // are not matched
+  const int backwardSpeedOffset = 0 
+  set_speed(PWM + backwardSpeedOffset, PWM);
   leftMotor.backward();
   rightMotor.forward();
 }
@@ -128,7 +149,7 @@ void go_right() {
 }
 
 void respondToCurrDir() {
-  // TODO - if lastCommand was not from serial then don't check the currDir != prevDir
+  // TODO - if lastCommand was not from serial data, then don't check the currDir != prevDir
   
   // Only need to act on the currDir value if it's different from the prevDir
   if (currDir != prevDir) {
@@ -310,7 +331,6 @@ void driveACR(void *pvParameters) {
     vTaskDelay(50 / portTICK_PERIOD_MS);
   }
 }
-
 
 // The code below is old code used to have the robot free roam around the room while avoiding anything
 // that falls into its path

@@ -1,3 +1,7 @@
+/*********************
+ * Setup for the Mobot motor controller
+ This assumes the  motor encncoders are not    used
+ */
 class MotorControl{
   public:
     byte INA_pin;
