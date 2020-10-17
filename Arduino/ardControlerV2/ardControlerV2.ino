@@ -1,9 +1,12 @@
-// Authors - Nikhil Uplekar, Nathan Koenigsmark, Huy Do
-// ENEE408I Fall 2019 Team 2
+// Based on code written by Nikhil Uplekar, Nathan Koenigsmark, Huy Do
+// ENEE408I Fall 2019 Team 2 December 2019
+// revised 2020-10-17
 
-// Code for slave ardino, takes serial inputs, runs RTOS to multitask
+// Code for robot Arduino, takes serial inputs, runs RTOS to multitask
+// RTOS Introduction:
+// https://circuitdigest.com/microcontroller-projects/arduino-freertos-tutorial1-creating-freertos-task-to-blink-led-in-arduino-uno
 
-// Order API (no whitespace please. Just the newlines)
+// Order API between robot computer and Arduino (no whitespace. Just the newlines)
 //  forward -> f
 //  left -> l
 //  right -> r
@@ -36,12 +39,12 @@ enum Following {person, april};
 
 //globals for motor control
 boolean avoidObstaclesEnabled = false; // Default to false
-boolean freeRoam = false; // Not supported
+boolean freeRoam = false; // Not supported at this point
 Directions currDir = halt;
 Directions prevDir = halt;
-Following followType = person; // Default to person since it's less obstructive
+Following followType = person; // Default to person following
 
-//globals for crash avoidance
+//globals for obstacle avoidance
 boolean dangerCenter = false;
 boolean dangerLeft   = false;
 boolean dangerRight  = false;
@@ -216,7 +219,7 @@ void updatePingData(void *pvParameters) {
   }
 }
 
-//drives the robot according to the last received order
+//drives the robot accoring to the last received order
 void driveACR(void *pvParameters) {
   while(1) {
     
