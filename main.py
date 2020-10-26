@@ -33,7 +33,7 @@ allQueues.append(cvQueue)
 
 @app.route('/')
 def hello_world():
-    return "Flask Server is Online!"
+    return "Robot Flask Server is Online"
 
 @ask.launch
 def launched():

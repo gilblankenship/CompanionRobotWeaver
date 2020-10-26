@@ -17,7 +17,8 @@
 //  personFollow -> p
 //  aprilFollow -> a
 
-#include <Arduino_FreeRTOS.h>
+//#include <Arduino_FreeRTOS.h>
+#include <FreeRTOS.h>
 #include "MotorControl.h"
 #include "Ultrasound.h"
 

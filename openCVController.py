@@ -1,5 +1,5 @@
 # Author: Nikhil Uplekar
-# ENEE408I-0101 Fall 2019 Group 2
+# ENEE408I-0101 Fall 2019 Team 2
 
 # import the necessary packages
 from queue import Queue
@@ -41,7 +41,6 @@ class Direction(Enum):
     LEFT = 3
     RIGHT = 4
     STOP = 5
-
 
 # Main class of the file
 class OpenCVController:

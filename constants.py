@@ -1,6 +1,5 @@
 ___all__ = ['UUIDS']
 
-
 class Immutable(type):
 
     def __call__(*args):
@@ -8,7 +7,6 @@ class Immutable(type):
 
     def __setattr__(*args):
         raise Exception("You can't modify immutable object")
-
 
 class UUIDS(object):
 
