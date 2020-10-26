@@ -22,12 +22,7 @@ void loop() {
   // print a random number from 0 to 100
 //  randNumber = random(0,100);
 //  Serial.print(randNumber);
-  Serial.print(randomDouble(0.01, 4.00), 3);
+  Serial.print(randomDouble(-40.00, 40.00), 3);
   Serial.print('\n');
-
-  // print a random number from 0 to -100
-  //randNumber = -random(0,100);
-  //Serial.print(randNumber);
-
   delay(50);
 }
