@@ -1,4 +1,4 @@
-long randNumber;
+//long randNumber;
 
 void setup() {
   Serial.begin(9600);
@@ -12,11 +12,16 @@ void setup() {
   // randomSeed() will then shuffle the random function.
   randomSeed(analogRead(0));
 }
+double randomDouble(double minf, double maxf)
+{
+  return minf + random(1UL << 31) * (maxf - minf) / (1UL << 31);  // use 1ULL<<63 for max double values)
+}
 
 void loop() {
   // print a random number from 0 to 100
-  randNumber = random(0,100);
-  Serial.print(randNumber);
+//  randNumber = random(0,100);
+//  Serial.print(randNumber);
+  Serial.print(randomDouble(0.01, 4.00), 8);
   Serial.print('\n');
 
   // print a random number from 0 to -100
