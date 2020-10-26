@@ -13,6 +13,7 @@ void setup() {
   randomSeed(analogRead(0));
 }
 double randomDouble(double minf, double maxf)
+// https://forum.arduino.cc/index.php?topic=371564.0
 {
   return minf + random(1UL << 31) * (maxf - minf) / (1UL << 31);  // use 1ULL<<63 for max double values)
 }
@@ -21,7 +22,7 @@ void loop() {
   // print a random number from 0 to 100
 //  randNumber = random(0,100);
 //  Serial.print(randNumber);
-  Serial.print(randomDouble(0.01, 4.00), 8);
+  Serial.print(randomDouble(0.01, 4.00), 3);
   Serial.print('\n');
 
   // print a random number from 0 to -100
