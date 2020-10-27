@@ -23,6 +23,6 @@ void loop() {
 //  randNumber = random(0,100);
 //  Serial.print(randNumber);
   Serial.print(randomDouble(-40.00, 40.00), 3);
-  Serial.print('\n');
-  delay(50);
+  Serial.print(',');
+  delay(5);
 }
