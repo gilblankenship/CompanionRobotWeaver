@@ -11,8 +11,8 @@ import imutils
 import serial
 import serial.tools.list_ports  # for listing serial ports
 import time
-import os
 from enum import Enum
+# import os
 # os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 from pygame.locals import *
@@ -49,7 +49,8 @@ class OpenCVController:
     RGB_BLACK = (0, 0, 0)
     EYEBALL_RADIUS = 30
 
-    # Font for text on webcam display (put here to simply our writing commands elsewhere and enable uniformity)
+    # Font for text on webcam display
+    # (put here to simply our writing commands elsewhere and enable uniformity)
     font = cv2.FONT_HERSHEY_SIMPLEX
 
     # Incremented after each photo is taken - this allows each photo to have a unique name and not be overwritten
