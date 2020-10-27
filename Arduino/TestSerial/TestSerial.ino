@@ -24,5 +24,5 @@ void loop() {
 //  Serial.print(randNumber);
   Serial.print(randomDouble(-40.00, 40.00), 3);
   Serial.print(',');
-  delay(5);
+  delay(50);
 }
