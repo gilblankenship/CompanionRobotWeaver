@@ -1,10 +1,10 @@
 // Based on code written by Nikhil Uplekar, Nathan Koenigsmark, Huy Do
 // ENEE408I Fall 2019 Team 2 December 2019
-// revised 2020-10-17
+// revised 2020-10-17 G. Blankenship
 
 // Code for robot Arduino, takes serial inputs, runs RTOS to multitask
-// RTOS Background and examples. Be sure to add the FreeRTOS library to your Arduino code:
-// https://circuitdigest.com/microcontroller-projects/arduino-freertos-tutorial1-creating-freertos-task-to-blink-led-in-arduino-uno
+// RTOS Background and examples. Be sure to add the FreeRTOS library to your Arduino code 
+// by searching in the Arduino IDE Library Manager
 
 // Order API between robot computer and Arduino (no whitespace. Just the newlines)
 //  forward -> f
@@ -17,8 +17,8 @@
 //  personFollow -> p
 //  aprilFollow -> a
 
-//#include <Arduino_FreeRTOS.h>
-#include <FreeRTOS.h>
+#include <Arduino_FreeRTOS.h> // install from Arduino IDE Libraries
+//#include <FreeRTOS.h>
 #include "MotorControl.h"
 #include "Ultrasound.h"
 
@@ -49,7 +49,7 @@ boolean dangerCenter = false;
 boolean dangerLeft   = false;
 boolean dangerRight  = false;
 boolean dangerDetected = false;
-long leftDistance = 0, centerDistance = 0, rightDistance = 0;
+long leftDistance = 0, centerDistance = 0, rightDistance = 0; // assumes 3 ping sensors
 boolean lastCommandFromSerial = false;
 
 // Prototypes for RTOS tasks. See the tutorial:
@@ -60,9 +60,9 @@ void driveACR      (void *pvParameters);
 
 // Ping sensor signaling pin connections, modify as needed
 // This assumes 3-pin Ping sensors from Parallax. 
-const int center_ping_pin = 4;
-const int left_ping_pin   = 7;
-const int right_ping_pin  = 8;
+const int center_ping_pin = 4; // Center ping sensor on robot
+const int left_ping_pin   = 7; // Left sensor
+const int right_ping_pin  = 8; // Right sensor
 
 /*
 // Modify if have the low cost HC-SR04 that has 4 pins, see: https://gist.github.com/flakas/3294829
@@ -72,7 +72,7 @@ const int TRIG = 2 // HC-SR-0 TRIG pin to digital pin 2 or as you desire
 const int ECHO = 4 // HC-SR-0 ECHO pin to digital pin 4 or as you desire
 */
 
-// Motor pin connections, modify to match your setup
+// Motor pin connections, modify to match your setup- these are for Arduino UNO
 const int LeftMotorA_pin    = 11;
 const int RightMotorA_pin   = 13;
 const int LeftMotorB_pin    = 10;
@@ -121,7 +121,7 @@ void go_forward() {
   // Motor speeds are set the same by default
   // You may have to adjust this if your motors
   // are not matched
-  const int forwardSpeedOffset = 0
+  const int forwardSpeedOffset = 0;
   set_speed(PWM + forwardSpeedOffset, PWM);
   leftMotor.forward();
   rightMotor.backward();
@@ -131,7 +131,7 @@ void go_backward() {
   // Motor speeds are set the same by default
   // You may have to adjust this if your motors
   // are not matched
-  const int backwardSpeedOffset = 0 
+  const int backwardSpeedOffset = 0;
   set_speed(PWM + backwardSpeedOffset, PWM);
   leftMotor.backward();
   rightMotor.forward();

@@ -1,0 +1,39 @@
+# Simple program to read data from the Arduino serial port
+import struct
+import serial
+import platform
+import numpy as np
+
+plat = platform.platform().lower()
+
+if plat.find('win') != -1:
+    print("Windows OS - setting port to COM4 - check this")
+    ser = serial.Serial("COM4", 9600)  # Set to the appropriate port
+elif plat.find('lin') != -1:
+    print("Linux OS - setting port check this")
+    # ser = serial.Serial("/dev/ttyUSB0", 9600)  # Linux port, Arduino Nano
+    ser = serial.Serial("/dev/ttyACM0", 9600)  # Linux port, Arduino Uno
+else:  # Assume Mac OS
+    print("Assuming MAC OS - setting port to /dev/ttyUSB0 - check this")
+    ser = serial.Serial("/dev/ttyUSB0", 9600)  # Linux port, check this
+
+# import sys
+# sys.exit(0)
+# ser = serial.Serial("COM4", 9600)  # Set to the appropriate port
+
+ser.flushInput()
+k = 0
+# x = np.empty((0))
+y=[]
+for k in range(20):
+    linein = ser.readline()
+    # print(type(linein))
+    # print(len(linein))
+    xs = str(linein)
+    # print(xs)
+    y=(xs[2:len(xs)-3])
+    print(y)
+    # x=x + ',' +x
+    k = k + 1
+# print(x)
+
