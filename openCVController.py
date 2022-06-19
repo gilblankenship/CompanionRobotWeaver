@@ -1,5 +1,5 @@
-# Author: Nikhil Uplekar
-# ENEE408I-0101 Fall 2019 Team 2
+# Author: Nikhil Uplekar, ENEE408I-0101 Fall 2019 Team 2
+# Gil Blankenship revisions
 
 # import the necessary packages
 from queue import Queue
@@ -14,8 +14,8 @@ import time
 from enum import Enum
 # import os
 # os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
-import pygame
-from pygame.locals import *
+# import pygame
+# from pygame.locals import *
 import json
 #import apriltag
 #import aprilTags
@@ -45,19 +45,19 @@ class Direction(Enum):
 # Main class of the file
 class OpenCVController:
     # PyGame constants (RGB value for white & black and the radius of the eyeballs to draw)
-    RGB_WHITE = (255, 255, 255)
-    RGB_BLACK = (0, 0, 0)
-    EYEBALL_RADIUS = 30
+    # RGB_WHITE = (255, 255, 255)
+    # RGB_BLACK = (0, 0, 0)
+    # EYEBALL_RADIUS = 30
 
-    # Font for text on webcam display
-    # (put here to simply our writing commands elsewhere and enable uniformity)
-    font = cv2.FONT_HERSHEY_SIMPLEX
+    # # Font for text on webcam display
+    # # (put here to simply our writing commands elsewhere and enable uniformity)
+    # font = cv2.FONT_HERSHEY_SIMPLEX
 
     # Incremented after each photo is taken - this allows each photo to have a unique name and not be overwritten
     imageNumber = 0
 
     # Define lower & upper boundaries in HSV color space (for object following/tracking)
-    greenLower = np.array([48, 100, 50])
+    greenLower = np.array([48, 100, 50]) # Color of green tennis ball
     greenUpper = np.array([85, 255, 255])
 
     # Constructor/initalizer for this class
@@ -108,7 +108,8 @@ class OpenCVController:
         try:
             urlopen('http://216.58.192.142', timeout=1)
             return True
-        except urllib2.URLError as err:
+        # except urllib2.URLError as err:
+        except urllib3.URLError as err:
             return False
 
     # Connected to Arduino for serial communication. This method will hang/wait until it can make the connection,
