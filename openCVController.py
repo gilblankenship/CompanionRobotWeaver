@@ -12,13 +12,13 @@ import serial
 import serial.tools.list_ports  # for listing serial ports
 import time
 from enum import Enum
-# import os
+import os
 # os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
-# import pygame
-# from pygame.locals import *
+import pygame
+from pygame.locals import *
 import json
-#import apriltag
-#import aprilTags
+# import apriltag
+import aprilTags
 from scipy import ndimage  # median filter
 import sys  # command line lib
 import glob
