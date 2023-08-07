@@ -8,7 +8,6 @@ from bluepy.btle import Peripheral, DefaultDelegate, ADDR_TYPE_RANDOM, BTLEExcep
 import crc16
 import os
 import struct
-
 from constants import UUIDS, AUTH_STATES, ALERT_TYPES, QUEUE_TYPES
 
 class AuthenticationDelegate(DefaultDelegate):
