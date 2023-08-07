@@ -7,7 +7,6 @@ import sys              	# command line lib
 import time
 import glob
 import os
- 
 
 #Decide which COM port to open
 ser = None
@@ -90,4 +89,3 @@ stopButton.grid(row=7, column=3)
 root.geometry("800x480")
 root.title("The one and only one awesome software")
 root.mainloop()
-
