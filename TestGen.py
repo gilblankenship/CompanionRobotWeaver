@@ -6,19 +6,19 @@ models = [m for m in palm.list_models() if 'generateText' in m.supported_generat
 model = models[0].name
 # print(model)
 prompt = """
-Write a python program for a macbook pro as the computer 
+Write a python program for a macbook book pro as the computer 
 to control a robot to search a region 
 for a known person using a camera and opencv, 
 and facial recognition, 
 ping sensors for obstacle avoidance, 
-and two driven wheels.
+and two driven wheels. incude code for all called functions
 """
 completion = palm.generate_text(
     model=model,
     prompt=prompt,
     temperature=0,
     # The maximum length of the response
-    max_output_tokens=10000,
+    max_output_tokens=20000,
 )
 def save_text_to_file(text, filename):
   """Saves text to a file."""
@@ -26,4 +26,4 @@ def save_text_to_file(text, filename):
     f.write(text)
 
 print(completion.result)
-save_text_to_file(completion.result,'SearchRegionBenMac.py')
+save_text_to_file(completion.result,'SearchRegionMacbook.py')
