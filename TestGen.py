@@ -6,11 +6,11 @@ models = [m for m in palm.list_models() if 'generateText' in m.supported_generat
 model = models[0].name
 # print(model)
 prompt = """
-Write a python program for a nvidia nano as the computer 
+Write a python program for a nvidia xavier nx as the computer 
 to control a robot to search a region 
 for a known person using a camera and opencv, 
 and facial recognition, 
-RTK GPS for location, 
+GPS for location, 
 and two driven wheels. incude code for all called functions
 """
 completion = palm.generate_text(
