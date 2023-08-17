@@ -1,3 +1,4 @@
+
 import cv2
 import numpy as np
 import math
@@ -12,7 +13,7 @@ cap = cv2.VideoCapture(0)
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 # initialize the GPS
-gps = gps.GPS()
+gps = gp.GPS()
 
 # initialize the two driven wheels
 left_wheel = Motor(17)
