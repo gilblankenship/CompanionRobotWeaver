@@ -18,7 +18,7 @@ import pygame
 from pygame.locals import *
 import json
 # import apriltag
-import aprilTags
+import Team2Code.aprilTags as aprilTags
 from scipy import ndimage  # median filter
 import sys  # command line lib
 import glob

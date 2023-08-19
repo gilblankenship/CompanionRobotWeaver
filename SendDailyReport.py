@@ -6,9 +6,9 @@ import datetime
 # Email configuration
 smtp_server = 'smtp.gmail.com'
 smtp_port = 587
-smtp_username = 'Gil Blankenship'
-smtp_password = 'F@lm0uth123!@#'
-sender_email = 'gilblankenship@gmail.com'
+smtp_username = 'gilblankenship'
+smtp_password = 'Pepsi2182!@#'
+sender_email = 'gilblankenship@mddevelopmentcenter.com' 
 recipient_email = 'gilblankenship@gmail.com'
 subject = 'Daily Report'
 

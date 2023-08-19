@@ -9,7 +9,7 @@ from flask_ask import Ask, statement, question
 import openCVController
 import heartbeatController
 import chatController
-import aprilTags
+import Team2Code.aprilTags as aprilTags
 
 # this file calls all others as threads then moves data from queue
 
