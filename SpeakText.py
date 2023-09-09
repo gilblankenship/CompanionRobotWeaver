@@ -8,4 +8,4 @@ def speak(text):
     engine.runAndWait()
 
 if __name__ == "__main__":
-    speak("Why not he's a good driver")
+    speak("Ok, so it's an Uber, but why not, he's a good driver")
