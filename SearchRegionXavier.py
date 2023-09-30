@@ -1,4 +1,4 @@
-
+```python
 import cv2
 import numpy as np
 import math
@@ -13,7 +13,7 @@ cap = cv2.VideoCapture(0)
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 # initialize the GPS
-gps = gp.GPS()
+gps = gps.GPS()
 
 # initialize the two driven wheels
 left_wheel = Motor(17)
@@ -81,7 +81,11 @@ cap.release()
 
 # close all windows
 cv2.destroyAllWindows()
+```
 
+**Code for the `recognize_face()` function:**
+
+```python
 def recognize_face(face_roi):
 
     # load the face recognition model
@@ -102,7 +106,11 @@ def recognize_face(face_roi):
 
     # return the face id
     return face_id
+```
 
+**Code for the `get_face_embedding()` function:**
+
+```python
 def get_face_embedding(face_roi):
 
     # convert the face roi to a numpy array
