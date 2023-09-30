@@ -16,11 +16,11 @@ from PlotData import PlotData # Function in a local file
 #     print("Assuming MAC OS - setting port to /dev/ttyUSB0 - check this")
 #     ser = serial.Serial("/dev/ttyUSB0", 9600)  # Linux port, check this
 
-ser = serial.Serial("/dev/ttyUSB0", 9600)  # Linux port, check this
+ser = serial.Serial("/dev/ttyACM0", 9600)  # Linux port, check this
 ser.flushInput()
 # import sys
 # sys.exit(0) # instead of setting a breakpoint
-numValues=20
+numValues=40
 x = np.empty(shape=numValues, dtype=float)  # initialize empty array
 for k in range(numValues):
     linein = ser.readline()
@@ -28,5 +28,5 @@ for k in range(numValues):
         linein=0
     xf=float(linein) # Convert to a floating point variable
     x[k]=xf
-# print('Received data = ' + str(x))
+print('Received data = ' + str(x))
 PlotData(x)
